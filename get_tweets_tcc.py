@@ -8,7 +8,7 @@ import pandas as pd
 path = "../monografia/Data/"
 
 # query to search tweets
-query = "(from:folha_mercado) until:2021-12-31 since:2011-01-01"
+query = "(from:folha_mercado) until:2011-12-31 since:2011-01-01"
 tweets = []
 limit = 100000
 
