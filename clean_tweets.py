@@ -1,5 +1,5 @@
 # Cleaning tweets process and concatenating files
-# Luan Santos
+# author: Luan Santos
 # 15-10-2022
 
 import glob
