@@ -1,4 +1,6 @@
-# cleaning tweets process and concatenating files
+# Cleaning tweets process and concatenating files
+# Luan Santos
+# 15-10-2022
 
 import glob
 import re
