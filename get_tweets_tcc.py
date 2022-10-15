@@ -5,7 +5,7 @@ import snscrape.modules.twitter as sntwitter
 import pandas as pd
 
 # my path
-my_path = "D:/Desktop/DataScience/Python/monografia/Data/"
+path = "../monografia/Data/"
 
 # query to search tweets
 query = "(from:folha_mercado) until:2021-12-31 since:2011-01-01"
@@ -25,4 +25,4 @@ df['Date'] = df['Date'].apply(lambda a: pd.to_datetime(a).date())
 
 # save in csv file
 filename = 'folhamercado_tweets.csv'
-df.to_csv(my_path + filename, index=False, encoding='utf-8-sig')
+df.to_csv(path + filename, index=False, encoding='utf-8-sig')
