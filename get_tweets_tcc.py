@@ -1,5 +1,6 @@
 # Code to extract tweets from @folha_mercado using snscrape
 # author: Luan Santos
+# 15-10-2022
 
 import snscrape.modules.twitter as sntwitter
 import pandas as pd
@@ -8,7 +9,7 @@ import pandas as pd
 path = "../monografia/Data/"
 
 # query to search tweets
-query = "(from:folha_mercado) until:2011-12-31 since:2011-01-01"
+query = "(from:folha_mercado) until:2021-12-31 since:2021-01-01"
 tweets = []
 limit = 100000
 
@@ -24,5 +25,5 @@ df = pd.DataFrame(tweets, columns=['date', 'user', 'tweet'])
 df['Date'] = df['Date'].apply(lambda a: pd.to_datetime(a).date())
 
 # save in csv file
-filename = 'folhamercado_tweets.csv'
+filename = 'folhamercado_tweets_2021.csv'
 df.to_csv(path + filename, index=False, encoding='utf-8-sig')
