@@ -7,7 +7,7 @@ import re
 import pandas as pd
 
 # read all filenames in path
-path = r'D:/Desktop/DataScience/Python/monografia/'
+path = r'../monografia/'
 files = glob.glob(path + "/Data/*.csv")
 
 df = pd.DataFrame()
