@@ -9,7 +9,7 @@ from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 from PIL import Image
 
 # read tweets
-path = r'D:/Desktop/DataScience/Python/monografia/'
+path = r'../monografia/'
 df = pd.read_csv(path + 'folhamercado_tweets.csv')
 
 # change the color font to black
