@@ -9,7 +9,7 @@ from collections import Counter
 from nltk.corpus import stopwords
 
 # read csv file
-path = r'D:/Desktop/DataScience/Python/monografia/'
+path = r'../monografia/'
 df = pd.read_csv(path + 'folhamercado_tweets.csv')
 
 # concatenate tweets
