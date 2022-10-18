@@ -34,46 +34,26 @@ vaderIndex_diary.to_csv(path + "vader/vaderIndex_diary.csv")
 
 # month index
 vaderIndex_month = df.groupby(pd.Grouper(freq="M")).mean()
-vaderIndex_month.to_csv(path + "vader/vaderIndex_month.csv", encoding='utf-8-sig')
+vaderIndex_month.to_csv(path + "vader/vaderIndex_month.csv")
 
 # quarter index
 vaderIndex_quarter = df.groupby(pd.Grouper(freq="QS")).mean()
-vaderIndex_quarter.to_csv(path + "vader/vaderIndex_quarter.csv", encoding='utf-8-sig')
+vaderIndex_quarter.to_csv(path + "vader/vaderIndex_quarter.csv")
 
-# plot compound index
-plt.plot(df.compound)
-plt.title('compound index for folha_mercado tweets - using all tweets')
-plt.draw()
-plt.show()
-plt.savefig(path + 'vader/compound_index.png')
+# function to plot index
+def plot_index(data, period):
+    plt.plot('compound', data=data, label='Compound')
+    plt.plot('sentiment_index', data=data, label='Sentiment Index')
+    plt.title('Compound x Sentiment Index by ' + period)
+    plt.legend()
+    plt.show()
 
-# plot sentiment index
-plt.plot(df.sentiment_index)
-plt.title('sentiment index for folha_mercado tweets - using all tweets')
-plt.draw()
-plt.show()
-plt.savefig(path + 'vader/sentiment_index.png')
 
-# compound and sentiment index by day
-plt.plot('compound', data=vaderIndex_diary, label='Compound')
-plt.plot('sentiment_index', data=vaderIndex_diary, label='Sentiment Index')
-plt.title('Compound x Sentiment Index by Day')
-plt.legend()
-plt.show()
+plot_index(vaderIndex_diary, 'day')
 plt.savefig(path + 'vader/sentimentIndex_diary.png')
 
-# compound and sentiment index by month
-plt.plot('compound', data=vaderIndex_month, label='Compound')
-plt.plot('sentiment_index', data=vaderIndex_month, label='Sentiment Index')
-plt.title('Compound x Sentiment Index by Month')
-plt.legend()
-plt.show()
+plot_index(vaderIndex_month, 'month')
 plt.savefig(path + 'vader/sentimentIndex_month.png')
 
-# compound and sentiment index by quarter
-plt.plot('compound', data=vaderIndex_quarter, label='Compound')
-plt.plot('sentiment_index', data=vaderIndex_quarter, label='Sentiment Index')
-plt.title('Compound x Sentiment Index by Quarter')
-plt.legend()
-plt.show()
+plot_index(vaderIndex_quarter, 'quarter')
 plt.savefig(path + 'vader/sentimentIndex_quarter.png')
