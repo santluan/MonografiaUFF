@@ -16,6 +16,11 @@ ipca = sgs.get({'ipca': 433}, start='2011-01-01')
 pib = sgs.get({'pib': 4380,
                'pib_acum': 4381}, start='2011-01-01')
 
+# ibc_br
+ibcbr = sgs.get({'ibc_br': 24363,
+                 'ibc_br_adj': 24364}, start='2011-01-01')
+
 selic.to_csv(path + 'selic.csv')
 ipca.to_csv(path + 'ipca.csv')
 pib.to_csv(path + 'pib.csv')
+ibcbr.to_csv(path + 'ibc_br.csv')
