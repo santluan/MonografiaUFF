@@ -1,6 +1,5 @@
 # Estimando o modelo VAR para os dados
 
-
 setwd('D:\\Desktop\\DataScience\\Python\\monografia\\')
 
 require(urca)
@@ -22,7 +21,8 @@ df2 <- data.frame(isl = df$ISL[2:132],
                   d_ipca = diff$d_ipca,
                   d_selic = diff$d_selic)
 
-# VAR 1 ####
+############### VAR #################
+
 # com ISV
 
 VARselect(df1)
@@ -35,8 +35,6 @@ FIR1 <- irf(model1,
             boot = T)
 plot(FIR1)
 
-"comentar"
-
 # com ISL
 
 VARselect(df2)
@@ -48,10 +46,6 @@ FIR2 <- irf(model2,
             n.ahead = 12,
             boot = T)
 plot(FIR2)
-
-"choque para ISL com sentiment_index está OK.
-IBC-Br decai até o 4 periodo
-IPCA cresce num primeiro momento, depois torna a cair"
 
 #### save data ####
 
