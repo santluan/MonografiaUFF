@@ -35,19 +35,11 @@ isv_adf <- data.frame(type1_none = data$type1[1,],
                       type2_drift = data$type2[1,],
                       type3_trend = data$type3[1,])
 
-"none: ISV rejeita H0;
-drift: ISV rejeita H0;
-trend: ISV rejeita H0"
-
 data <- aTSA::adf.test(df$ISL)
 
 isl_adf <- data.frame(type1_none = data$type1[1,],
                       type2_drift = data$type2[1,],
                       type3_trend = data$type3[1,])
-
-"none: ISV n?o rejeita H0;
-drift: ISV rejeita H0;
-trend: ISV rejeita H0"
 
 data <- aTSA::adf.test(df$ibcbr)
 
@@ -55,17 +47,11 @@ ibc_adf <- data.frame(type1_none = data$type1[1,],
                       type2_drift = data$type2[1,],
                       type3_trend = data$type3[1,])
 
-
-"IBC-Br n?o rejeita H0 para nenhuma das hip?teses/tipos"
-
-
 data <- aTSA::adf.test(df$ipca)
 
 ipca_adf <- data.frame(type1_none = data$type1[5,],
                        type2_drift = data$type2[5,],
                        type3_trend = data$type3[5,])
-
-"IPCA n?o rejeita H0 para nenhuma das hip?teses/tipos"
 
 data <- aTSA::adf.test(df$selic)
 
@@ -73,7 +59,7 @@ selic_adf <- data.frame(type1_none = data$type1[4,],
                         type2_drift = data$type2[4,],
                         type3_trend = data$type3[4,])
 
-# primeira diferen?a ####
+# primeira diferença ####
 
 d_isv <- diff(df$ISV)
 data <- aTSA::adf.test(d_isv)
@@ -105,9 +91,7 @@ d_selic_adf <- data.frame(type1_none = data$type1[1,],
                           type2_drift = data$type2[1,],
                           type3_trend = data$type3[1,])
 
-"todas as s?ries em diferen?a rejeitam H0"
-
-############## PP test ###########
+############### PP test #################
 
 isv_pp <- aTSA::pp.test(df$ISV, type = "Z_tau")
 isl_pp <- aTSA::pp.test(df$ISL, type = "Z_tau")
@@ -127,4 +111,4 @@ diff_data <- data.frame(d_isv, d_isl, d_ibcbr, d_ipca, d_selic)
 write.csv(diff_data, file = "diff_data.csv")
 write.csv(df, file = 'data.csv')
 
-save.image(file = 'stacionarity_test.Rdata')
+save.image('stacionarity_test.Rdata')
