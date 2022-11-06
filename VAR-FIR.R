@@ -8,20 +8,17 @@ require(aTSA)
 require(mFilter)
 
 # lendo os dados
-
 df <- read.csv('data.csv', row.names = 1)
 diff <- read.csv('diff_data.csv', row.names = 1)  
 
-ibcbr_hp <- hpfilter(df$ibcbr, freq=14440)
-
 df1 <- data.frame(isv = df$ISV[2:132],
                   ipca = df$ipca[2:132],
-                  hiato = ibcbr_hp$cycle[2:132],
+                  hiato = df$hiato[2:132],
                   d_selic = diff$d_selic)
 
 df2 <- data.frame(isl = df$ISL[2:132],
                   ipca = df$ipca[2:132],
-                  hiato = ibcbr_hp$cycle[2:132],
+                  hiato = df$hiato[2:132],
                   d_selic = diff$d_selic)
 
 # VAR 1 ####
