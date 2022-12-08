@@ -24,6 +24,6 @@ df['sentiment_index'] = df.pos_sentiment - df.neg_sentiment
 
 df.to_csv(path + 'vader/vader_index.csv')
 
-# diary index
-vaderIndex_diary = df.groupby(pd.Grouper(freq="D")).mean(numeric_only=True)
-vaderIndex_diary.to_csv(path + "vader/vaderIndex_diary.csv")
+# month index
+vaderIndex_diary = df.groupby(pd.Grouper(freq="MS")).mean(numeric_only=True)
+vaderIndex_diary.to_csv(path + "vader/vaderIndex_month.csv")
