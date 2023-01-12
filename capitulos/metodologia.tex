@@ -1,0 +1,331 @@
+\chapter{Metodologia}
+
+Nesta seção será realizada breve revisão dos métodos de econometria aplicadas às séries temporais. Vale lembrar que a disciplina da econometria ocupa o papel de medição estatística dentro da economia e compreensão dos fenômenos econômicos através dela. Enquanto que séries temporais trata-se da modelagem de variáveis observadas sequencialmente ao longo do tempo, sendo bem comum às áreas de finanças e economia. Tendo isso em mente, este capítulo cobrirá os principais tópicos dessas disciplinas utilizados no estudo desta monografia.
+
+\section{Processos Estacionários}
+
+Em séries temporais, descobrir o caráter da série a ser estudada é essencial, pois a partir dela é possível selecionar o modelo ideal para estimação. Neste caso, é preciso compreender se as variáveis são estacionárias. Segundo \citeonline{wooldridge}:
+
+\begin{citacao}
+"Um processo estacionário de série temporal é aquele em que as distribuições de probabilidades são estáveis no decorrer do tempo no seguinte sentido: se pegarmos qualquer coleção de variáveis aleatórias na sequência e depois deslocarmos essa sequência para diante em $h$ períodos de tempo, a distribuição de probabilidade conjunta deve permanecer inalterada"
+\cite{wooldridge}
+\end{citacao}
+
+Em outras palavras, um processo estocástico é tido como estacionário se suas propriedades estatísticas se mantiverem inalteradas independente do intervalo de tempo que forem extraídas, ou seja, ao selecionarmos qualquer período de tempo com intervalo $h$ de distância entre as observações, sua propriedade estatística não se altera, permanecendo assim constante. Seguindo a sua definição formal, um processo estocástico é estacionário se:
+\begin{equation}\label{stacionarity}
+\begin{split}
+    E[y_t] = \mu, \\
+    Var[y_t] = \sigma^2_y, \\
+    Cov[y_t, y_{t-s}] = \gamma_{(s)},
+\end{split}
+\end{equation}
+
+\noindent onde $\mu$, $\sigma^2_y$ são constantes e $\gamma_{(s)}$ é uma função de $|s|$. Portanto, a Equação (\ref{stacionarity}) denota que para um processo ser considerado estacionário, é preciso que: (i) sua média condicional seja constante e finita; (ii) sua variância seja constante e finita; e (iii) suas auto-correlações dependerem apenas da distância entre $t$ e $t-s$ e forem constantes e finitas.
+
+Um exemplo de processo estacionário é o chamado ruído branco $\varepsilon_t$ quando satisfaz as condições:
+
+\begin{equation}\label{ruidobranco}
+\begin{split}
+    E[\varepsilon_t] = 0, \\
+    Var[\varepsilon_t] = \sigma^2, \\
+    Cov[\varepsilon_t, \varepsilon_{t-s}] = 0.
+\end{split}
+\end{equation}
+
+Outro tipo de processo são os chamadados processos autorregressivos (AR), os quais expressam a variável aleatória no tempo $t$ como resultado da combinação linear das $k$ variáveis a anteriores. Assim sendo, um processo AR(1) adquire a forma 
+\begin{equation}
+    y_t = \rho y_{t-1} + \varepsilon_t
+\end{equation}
+
+\noindent onde $\varepsilon_t$ é ruído branco. Como monstrado em \citeonline{wooldridge} se $\rho$ = 1, o processão não é estacionário e, se $\rho$ < 1, o processo é estacionário.
+
+\section{Testes de raiz unitária}
+
+Na literatura de séries temporais, os testes de estacionariedade, também comumente conhecidos como \textit{Unit Root Test}, são procedimentos estatísticos para checar a presença de raiz unitária. Em outras palavras, os testes de raiz unitária verificam se existem evidências de estacionariedade na série.
+
+%\begin{align*} \label{hipoteses}
+%    H_O: \rho = 0 \\
+%    H_A: \rho < 0
+%\end{align*}
+
+%\noindent onde, a hipótese nula indica que a série possui tendência estocástica, enquanto que a hipótese alternativa indica o contrário, não possui tendência. Ou seja, a interpretação do teste é dita como: ao rejeitarmos a hipótese nula, não há presença de tendência, que por consequência, não há presença de raiz unitária na série.
+
+%Normalmente, o teste para examinar a presença de raíz unitária envolve dois passos: estimação de modelo auto-regressivo AR(p) que represente razoavelmente os dados e então testar a hipótese nula de raíz unitária.
+
+\subsection{Teste Dickey-Fuller (DF)}
+
+Por conta da dificuldade encontrada ao examinar séries de tempo, testes de estacionariedade foram desenvolvidos para esta tarefa, sendo os mais comuns o Teste Dickey-Fuller, Dickey-Fuller Aumentado e Phillips-Perron, todos eles sendo explicados a seguir. De acordo com \citeonline{principles-econometrics}, a definição do teste Dickey-Fuller (DF) pode ser expresso por um modelo AR(1) com diferentes circunstâncias.
+
+%Inicialmente, o teste Dickey-Fuller (DF) envolve a estimação de uma modelo autorregressivo de ordem 1, AR(1). Em seguida, são consideradas três expressões para teste de raiz unitária, sendo elas:
+
+%\begin{equation}\label{DF}
+%\begin{split}
+%    \Delta{y_t} = \rho y_{t-1} + \varepsilon_t\quad, \\
+%    \Delta{y_t} = \alpha_0 + \rho y_{t-1} + \varepsilon_t\quad, \\
+%    \Delta{y_t} = \alpha_0 + \rho y_{t-1} + \alpha_2{t} + \varepsilon_t\quad.
+%\end{split}
+%\end{equation}
+
+\begin{table}[!h]
+    \centering
+    \caption{Processos AR e testes Dickey-Fuller}
+    \begin{tabular}{ccccc}
+    \hline
+Processos AR: $|\rho|$ < 1 && $\rho$ = 1 && Teste Dickey-Fuller \\
+    \hline \\ \hline
+$y_t = \rho y_{t-1} + \varepsilon_t$ && $y_t = y_{t=1} + \varepsilon_t$ && Teste sem constante e sem tendência \\
+    \hline \\ \hline
+$y_t = \alpha + \rho y_{t-1} + v_t$ && $y_t = y_{t=1} + v_t$ && Teste com constante e sem tendência \\
+$\alpha = \mu(1-\rho)$ && $\alpha=0$ &&      \\
+    \hline \\ \hline
+$y_t = \alpha + \rho y_{t-1} + \lambda t + v_t$ && $y_t = \delta + y_{t-1} + v_t$ && Teste com constante e tendência \\
+$\alpha = \mu(1-\rho) + \rho \delta$ && $\alpha = \delta$ &&     \\
+$\lambda = \delta(1-\rho)$ && $\lambda = 0$      \\
+    \hline
+    \end{tabular} \label{DFtests}
+    \fonte{\cite{principles-econometrics}}
+\end{table}
+
+A Tabela \ref{DFtests} demonstra o teste DF nas suas três formas, sendo: (i) presença de passeio aleatório; (ii) adição de constante; e (iii) presença de um elemento de tendência e constante. Sua interpretação é dada por $\rho$. 
+
+%Se $\rho$ , o processo contém raiz unitária. 
+
+Por fim, o teste envolve a estimação de equações usando Mínimos Quadrados Ordinários (MQO) para se obter o valor estimado de $\rho$. Uma vez obtido o resultado, basta comparar sua estatística $t$ com as tabelas DF para determinar a aceitação ou rejeição da hipótese nula, ou mais facilmente a interpretação do seu $p$-valor. Para os fins dessa monografia, foram realizados o cálculo para o teste através do pacote econométrico aTSA (\citeonline{aTSA}) do software R (\citeonline{R}).
+
+\subsection{Teste Dickey-Fuller Aumentado (ADF)}
+
+A diferença entre o teste Dickey-Fuller Aumentado e o teste DF simples, está na sua ordem de estimação. Segundo \citeonline{enders}, a metodologia do teste DF é estimada por um processo autorregressivo de ordem 1, AR(1), enquanto que o teste ADF é estimado um processo autoregressivo de ordem $\rho$, AR($\rho$), com tantas defasagens forem necessárias para diminuir os efeitos residuais da série. Essa evolução vem para melhor representar o caráter das séries temporais não-estacionárias. Dessa forma, a metodologia do teste admite uma representação AR($\rho$): 
+\begin{equation}\label{ADF1}
+    y_t = \alpha_0 + \alpha_1 y_{t-1} + \alpha_2 y_{t-2} + ... + \alpha_{p-1} y_{t-p+1} + \alpha_p y_{t-p} + \varepsilon_t\quad,
+\end{equation}
+
+\noindent que a partir da Equação (\ref{ADF1}), adiciona-se e subtrai-se $\alpha_p y_{t-p+1}$ para obter
+\begin{equation}\label{ADF2}
+    y_t = \alpha_0 + \alpha_1 y_{t-1} + \alpha_2 y_{t-2} + ... + (\alpha_{p-1} + \alpha_p) y_{t-p+1} - \alpha_p \Delta y_{t-p+1} + \varepsilon_t \quad,
+\end{equation}
+
+\noindent continuando neste método de subtrair-se $(\alpha_{p-1} + \alpha_p)y_{t-p+2}$, até se chegar a equação
+\begin{equation}\label{ADF3}
+    \Delta y_t = \alpha_0 + \gamma y_{t-1} + \sum^{p}_{i=2} \beta_i \Delta y_{t-i+1} + \varepsilon_t \quad,
+\end{equation}
+
+\noindent onde $\gamma = - (1 - \sum^p_{i=1} \alpha_i)$ e $\beta_i = \sum^{p}_{j=i} \alpha_j$.
+
+Como explicado anteriormente no teste DF, nosso termo de interesse aqui está no coeficiente $\gamma$ exemplificado na Equação (\ref{ADF3}). Sendo $\gamma$ = 0, o processo dispõe de raiz unitária, o que acarreta em não estacionariedade. As hipóteses do teste são apresentadas a seguir:
+\begin{align*} \label{hipoteses}
+    H_O: \gamma = 0 \\
+    H_A: \gamma < 0
+\end{align*}
+
+\noindent sendo $H_0$ e $H_A$ as hipóteses nula e hipótese alternativa, respectivamente.
+
+Além disso, como discutido antes, para consultar seu resultado basta comparar sua estatística-$t$ com as estatísticas tabuladas por Dickey-Fuller. Para mais detalhes, consultar \citeonline{enders}.
+
+\subsection{Teste Philips-Perron (PP)}
+
+Como explicado por \citeonline{bueno}, o teste desenvolvido por Phillips e Perron (1988) surge a partir dos preceitos definidos pelo teste ADF, porém, nele é incluído uma correção não-paramétrica que permite ao estimador seja consistente para variáveis defasadas dependentes e contenham correlação serial nos erros. O que, portanto, torna desnecessária a estimação de modelo autorregressivo com tantas defasagens suficientes para mitigar os efeitos residuais contidos na série, como é feito no teste ADF.
+
+Dessa maneira, considerando que seus procedimentos são análogos aos do teste ADF, tanto na estimação e teste para hipótese nula, a interpretação do modelo também é equivalente. Portanto, a equação de teste PP pode ser descrita como:
+\begin{equation}
+    \begin{split}
+        \Delta y_t = \alpha y_{t-1} + \varepsilon_t \quad, \\
+        \Delta y_t = \mu + \alpha y_{t-1} + \varepsilon_t \quad, \\
+        \Delta y_t = \mu + \delta t + \alpha y_{t-1} + \varepsilon_t \quad,
+    \end{split}
+\end{equation}
+
+\noindent sendo $\varepsilon_t$ um ruído branco.
+
+
+\section{Modelo Vetor Autorregressivo - VAR}
+
+Idealizado por \citeonline{sims}, o modelo vetor autorregressivo vem para suprir a necessidade das ciências econômicas no estudo de modelos estimados com múltiplas variáveis econômicas.
+
+\begin{citacao}
+"Os modelos econômicos em geral são expressos por meio de diversas variáveis. Portanto, o uso de modelos univariados é limitado para expressar modelos econômicos. O vetor autorregressivo permite que se expressem modelos econômicos completos e se estimem os parâmetros desse modelo."
+\cite{bueno}
+\end{citacao}
+
+Ou seja, diferentemente das restrições impostas pelos modelos univariados, o modelo VAR permite que modelos econômicos sejam expressos na sua forma completa, possibilitando assim a análise do comportamento conjunto das variáveis ao tratar todas como endógenas.
+
+Desse modo, o modelo autorregressivo vetorial pode ser ser expresso pela seguinte equação extraída de \citeonline{bueno}:
+
+\begin{equation}\label{var-estrutural}
+    AX_t = B_0 + \sum^p_{i=1} B_i X_{t-i} + B\varepsilon_t \quad,
+\end{equation}
+
+\noindent onde $X_t$ representa o vetor de $n$ processos endógenos, $n \times 1$; conectadas a ele está $\mathbf{A}$, uma matrix $n \times n$ que compõe as restrições das variáveis comtemporaneamente; $\mathbf{B_0}$ é um vetor de constantes $n \times 1$; $\mathbf{B_i}$ são matrizes $n \times n$; $\mathbf{B}$ é uma matriz diagonal $n \times n$ e $\varepsilon_t$ um vetor $n \times 1$ de termo de erro aleatório não correlacionados entre si temporalmente.
+
+A Equação (\ref{var-estrutural}) representa a forma estrutural no modelo VAR. Entretanto, um modelo econômico teórico não pode ser estimado em sua forma estrutural, pois existe correlação contemporênica entre os regressos e os choques, por conta de sua natureza endógena, gerando assim estimadores inconsistentes. 
+
+Por esses motivos, o modelo VAR é estimado na sua forma reduzida, podendo ser representado pela equação a seguir:
+\begin{align}
+\begin{split}
+    X_t = A^{-1}B_0 + \sum^p_{i=1} A^{-1} B_i X_{t-1} + A^{-1} B\varepsilon_t \quad, \\
+    X_t = \Phi_0 + \sum^p_{i=1} \Phi_i X_{t-1} + \epsilon_t \quad,
+\end{split}
+\end{align}
+
+\noindent em que $\Phi \equiv \mathbf{A^{-1}}B_i$, $i$ = 0,1,...,p e $B\varepsilon_t \equiv A\epsilon_t$.
+
+%O sua forma reduzida pode ser explicada por meio de um modelo bivariado de ordem 1, exemplificado por \cite{enders}. 
+A Equação (\ref{var-reduzido}) contém a simplificação do modelo estrutural e nos permite visualizar mais facilmente o comportamento contemporâneo das séries temporais. É possível observar como os dois processos se influenciam mutuamente e contemporaneamente \cite{enders}.
+\begin{align}\label{var-reduzido}
+    \begin{split}
+    y_t = b_{10} - b_{12}z_t + \gamma_{11}y_{t-1} + \gamma_{12}z_{t-1} + \epsilon_{yt} \\
+    z_t = b_{20} - b_{21}y_t + \gamma_{21}y_{t-1} + \gamma_{22}z_{t-1} + \epsilon_{zt}
+    \end{split}
+\end{align}
+
+Por fim, o modelo vetorial autorregressivo objetiva o desenvolvimento de técnicas que diminuam o efeito retroativo entre os termos de erros das séries e assim estimar a tragetória do processo de interesse ante um choque nos erros, isto é, um choque estrutural \cite{bueno}.
+
+\subsection{Função Resposta ao Impulso}
+
+A função resposta ao impulso é uma ferramenta metodológica formalizada por \citeonline{sims} visando entender o comportamento das séries dado um choque nas variáveis do modelo VAR. Em outras palavras, a função resposta impulso procura rastrear o comportamento futuro das séries do modelo dado um choque estrutural em seus termos de erro. 
+
+Assim como um o modelo AR($\rho$) possui uma representação de média móvel, o vetor autorregressivo também pode ser escrito como um vetor de média móvel (VMA). Em termos matemáticos, a representação do VMA é expressa pelo seu valor corrente e valores passados do modelo  e permite traçar o caminho temporal dos vários choques nas séries contidas no sistema VAR. Para ilustrar esse método, iremos seguir a forma matricial do VAR(1) para duas variáveis exemplificada por \citeonline{enders}:
+\begin{align} \label{var-mat1}
+\begin{bmatrix}
+    y_t \\
+    z_t
+\end{bmatrix}
+=
+\begin{bmatrix}
+    a_{10} \\
+    a_{10} \\
+\end{bmatrix}
++
+\begin{bmatrix}
+    a_{11} & a_{12} \\
+    a_{21} & a_{22} 
+\end{bmatrix}
+\begin{bmatrix}
+    y_{t-1} \\
+    z_{t-1} \\
+\end{bmatrix}
++
+\begin{bmatrix}
+    \epsilon_{1t} \\
+    \epsilon_{2t} \\
+\end{bmatrix}    
+\end{align}
+
+\noindent podendo ser reescrita como
+\begin{align} \label{var-mat2}
+\begin{bmatrix}
+    y_t \\
+    z_t
+\end{bmatrix}
+=
+\begin{bmatrix}
+    \overline{y} \\
+    \overline{z}
+\end{bmatrix}
++
+\sum_{i=0}^{\infty}
+\begin{bmatrix}
+    a_{11} & a_{12} \\
+    a_{21} & a_{22} 
+\end{bmatrix}^i
+\begin{bmatrix}
+    \epsilon_{1t-i} \\
+    \epsilon_{2t-i}
+\end{bmatrix} \quad,
+\end{align}
+
+\noindent vale salientar que a matriz $\begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix}$ é resultado de um processo de inversão dos operadores definida pela matriz $\begin{bmatrix} \gamma_{11} & \gamma_{12} \\ \gamma_{21} & \gamma_{22} \end{bmatrix}$. Detalhes podem ser consultados na referência \cite{enders}.
+
+A Equação (\ref{var-mat2}) expressa $y_t$ e $z_t$ em termos de {$\epsilon_{1t}$} e {$\epsilon_{2t}$}. Entretanto, ao reescrevermos a equação em termos de $\varepsilon_{1t}$ e $\varepsilon_{2t}$, teremos o vetor de erros descrito como
+\begin{align}\label{var-erro}
+\begin{bmatrix}
+    \epsilon_{1t} \\
+    \epsilon_{2t}
+\end{bmatrix}
+=
+\frac{1}{1 - b_{12}b_{21}}
+\begin{bmatrix}
+    1       & -b_{12} \\
+    -b_{21} & 1
+\end{bmatrix}
+\begin{bmatrix}
+    \varepsilon_{yt} \\
+    \varepsilon_{zt}
+\end{bmatrix} \quad,
+\end{align}
+
+\noindent substituindo (\ref{var-erro}) em (\ref{var-mat2}) segue
+\begin{align} \label{var-mat3}
+\begin{bmatrix}
+    y_t \\
+    z_t
+\end{bmatrix}
+=
+\begin{bmatrix}
+    \overline{y} \\
+    \overline{z}
+\end{bmatrix}
++
+\frac{1}{1 - b_{12}b_{21}}
+\sum_{i=0}^{\infty}
+\begin{bmatrix}
+    a_{11} & a_{12} \\
+    a_{21} & a_{22} 
+\end{bmatrix}^i
+\begin{bmatrix}
+    1       & -b_{12} \\
+    -b_{21} & 1
+\end{bmatrix}
+\begin{bmatrix}
+    \varepsilon_{yt-i} \\
+    \varepsilon_{zt-i}
+\end{bmatrix} \quad.
+\end{align}
+
+Dada sua imensa notação, pode-se simplificar a Equação (\ref{var-mat3}) definindo o termo $\phi$ como uma matrix $2 \times 2$ com elementos $\phi_{jk}(i)$
+\begin{align}
+\phi_i =
+\frac{A_{1}^i}{1 - b_{12}b_{21}}
+\begin{bmatrix}
+    1       & -b_{12} \\
+    -b_{21} & 1
+\end{bmatrix} \quad,
+\end{align}
+
+\noindent assim temos a representação do VMA em termos de {$\varepsilon_{yt}$} e {$\varepsilon_{zt}$}, como seguem:
+\begin{align}\label{vma-final}
+\begin{bmatrix}
+    y_t \\
+    z_t
+\end{bmatrix}
+=
+\begin{bmatrix}
+    \overline{y} \\
+    \overline{z}
+\end{bmatrix}
++
+\sum_{i=0}^{\infty}
+\begin{bmatrix}
+    \phi_{11}(i) & \phi_{12}(i) \\
+    \phi_{21}(i) & \phi_{22}(i)
+\end{bmatrix}
+\begin{bmatrix}
+    \varepsilon_{yt-i} \\
+    \varepsilon_{zt-i}
+\end{bmatrix} \quad,
+\end{align}
+
+\noindent ou na sua sua forma simplificada
+\begin{align} \label{VAR-FIR}
+    x_t = \mu + \sum_{i=0}^{\infty} \phi_i \varepsilon_{t-i}
+\end{align}
+
+\noindent onde $x_t = \begin{bmatrix} y_t \\ z_t \end{bmatrix}$; $\mu = \begin{bmatrix} \overline{y} \\ \overline{z} \end{bmatrix}$; $\phi_i = \begin{bmatrix} \phi_{11}(i) & \phi_{12}(i) \\ \phi_{21}(i) & \phi_{22}(i) \end{bmatrix}$ e $\varepsilon_{t-i} = \begin{bmatrix} \varepsilon_{yt-i} \\ \varepsilon_{zt-i} \end{bmatrix}$.
+
+Essa representação do VMA é um artifício muito útil para examinar a interação entre as variáveis {$y_t$} e {$z_t$}. Essencialmente, os coeficientes $\phi_i$ podem ser utilizados para gerar choques de $\varepsilon_{yt}$ e $\varepsilon_{zt}$ nas sequências de {$y_t$} e {$z_t$}. Em outras palavras, denota-se que coeficientes são os principais causadores do choque nos erros e, por isso, são chamados de multiplicados de impacto.
+
+Para se chegar ao efeito acumulado na série, basta somar os impulsos unitários de $\phi_i$ em $\varepsilon_{yt}$ e $\varepsilon_{zt}$ para se obter a função de impulso.
+\begin{align}
+    \sum_{i=0}^{\infty} \phi_{jk}(i)
+\end{align}
+
+Dessa forma, os coeficientes $\phi_{11}(i)$, $\phi_{12}(i)$, $\phi_{21}(i)$ e $\phi_{22}(i)$ da Equação (\ref{vma-final}) são chamados de Função Resposta ao Impulso.
